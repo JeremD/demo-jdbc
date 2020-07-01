@@ -47,7 +47,7 @@ public class TestSelect {
 				List<Fournisseur> arrayFournisseur = new ArrayList<>();
 				
 				while (resultSet.next()) {
-					int id = Integer.parseInt(resultSet.getString("ID"));
+					int id = resultSet.getInt("ID");
 					String nom = resultSet.getString("NOM");
 					
 					Fournisseur nomFournisseur = new Fournisseur(id, nom);
