@@ -29,12 +29,9 @@ public class TestConnexionJdbc {
 
 		try (Connection connexion = DriverManager.getConnection(url, user, password)) {
 
-			try (Statement statement = connexion.createStatement();
-					ResultSet resultSet = statement.executeQuery("select * from fournisseur");) {
-				while (resultSet.next()) {
-					String nom = resultSet.getString("nom");
-					System.out.println(nom);
-				}
+			try (Statement statement = connexion.createStatement();)
+					{
+				System.out.println(connexion);
 			}
 
 		} catch (SQLException e) {
