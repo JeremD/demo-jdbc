@@ -28,6 +28,11 @@ public class FournisseurDaoJdbc implements FournisseurDao {
 	private Connection connexion;
 	private Statement statement;
 
+	/**
+	 * Extraire la liste des fournisseurs
+	 * 
+	 * @return liste des fournisseurs
+	 */
 	@Override
 	public List<Fournisseur> extraire() {
 		try {
@@ -35,7 +40,7 @@ public class FournisseurDaoJdbc implements FournisseurDao {
 		} catch (ClassNotFoundException e) {
 			throw new ComptaException("Erreur d'accès à la base de données", e);
 		}
-		
+
 		try {
 			connexion = DriverManager.getConnection(url, user, password);
 			statement = connexion.createStatement();
@@ -46,39 +51,47 @@ public class FournisseurDaoJdbc implements FournisseurDao {
 			while (resultSet.next()) {
 				int id = resultSet.getInt("ID");
 				String nom = resultSet.getString("NOM");
-				
+
 				Fournisseur Fournisseur = new Fournisseur(id, nom);
 				list.add(Fournisseur);
 			}
-			
+
 			return list;
-			
-		} catch (SQLException e) {
-			throw new ComptaException("Erreur de requête SQL", e);
-		}
-	}
 
-	@Override
-	public void insert(Fournisseur fournisseur) {
-		
-		try {
-			Class.forName(database.getString("database.driver"));
-		} catch (ClassNotFoundException e) {
-			throw new ComptaException("Erreur d'accès à la base de données", e);
-		}
-		
-		try {
-			connexion = DriverManager.getConnection(url, user, password);
-			statement = connexion.createStatement();
-
-			statement.executeUpdate("insert into FOURNISSEUR(id, nom) values(" + fournisseur.getId() + ", '" +  fournisseur.getNom() + "')");
 		} catch (SQLException e) {
 			throw new ComptaException("Erreur de requête SQL", e);
 		}
 	}
 
 	/**
-	 * update
+	 * Ajouter un fournisseur
+	 * 
+	 * @param fournisseur
+	 */
+	@Override
+	public void insert(Fournisseur fournisseur) {
+
+		try {
+			Class.forName(database.getString("database.driver"));
+		} catch (ClassNotFoundException e) {
+			throw new ComptaException("Erreur d'accès à la base de données", e);
+		}
+
+		try {
+			connexion = DriverManager.getConnection(url, user, password);
+			statement = connexion.createStatement();
+
+			statement.executeUpdate("insert into FOURNISSEUR(id, nom) values(" + fournisseur.getId() + ", '" + fournisseur.getNom() + "')");
+		} catch (SQLException e) {
+			throw new ComptaException("Erreur de requête SQL", e);
+		}
+	}
+
+	/**
+	 * Mettre à jour un fournisseur
+	 * 
+	 * @param fournisseur
+	 * @return int
 	 */
 	@Override
 	public int update(String ancienNom, String nouveauNom) throws ComptaException {
@@ -92,17 +105,24 @@ public class FournisseurDaoJdbc implements FournisseurDao {
 		try {
 			connexion = DriverManager.getConnection(url, user, password);
 			statement = connexion.createStatement();
-			
+
 			return statement.executeUpdate("update FOURNISSEUR set NOM='" + nouveauNom + "' WHERE NOM='" + ancienNom + "'");
-		
+
 		} catch (SQLException e) {
 			throw new ComptaException("Erreur de requête SQL", e);
 		}
 
 	}
 
+	/**
+	 * Supprimer un fournisseur
+	 * 
+	 * @param fournisseur
+	 * @return bool
+	 */
 	@Override
 	public boolean delete(Fournisseur fournisseur) {
+
 		try {
 			Class.forName(database.getString("database.driver"));
 		} catch (ClassNotFoundException e) {
@@ -112,14 +132,14 @@ public class FournisseurDaoJdbc implements FournisseurDao {
 		try {
 			connexion = DriverManager.getConnection(url, user, password);
 			statement = connexion.createStatement();
-			
+
 			statement.executeUpdate("delete from FOURNISSEUR where NOM='" + fournisseur.getNom() + "'");
 			return true;
-			
+
 		} catch (SQLException e) {
 			throw new ComptaException("Erreur de requête SQL", e);
 		}
-		
+
 	}
 
 }
