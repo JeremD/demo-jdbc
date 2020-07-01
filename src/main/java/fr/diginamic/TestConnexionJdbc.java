@@ -32,8 +32,8 @@ public class TestConnexionJdbc {
 			try (Statement statement = connexion.createStatement();
 					ResultSet resultSet = statement.executeQuery("select * from fournisseur");) {
 				while (resultSet.next()) {
-					String nom = resultSet.getString("nom");
-					System.out.println(nom);
+					String getNom = resultSet.getString("nom");
+					System.out.println(getNom);
 				}
 			}
 
