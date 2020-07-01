@@ -1,14 +1,11 @@
 package fr.diginamic.jdbc;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ResourceBundle;
+import fr.diginamic.entites.Fournisseur;
+import fr.diginamic.jdbc.dao.FournisseurDao;
+import fr.diginamic.jdbc.dao.FournisseurDaoJdbc;
 
 /**
- * JDBC TP 03 - Exercice 3
+ * JDBC TP 04
  * 
  * @author Jeremy
  *
@@ -18,42 +15,13 @@ public class TestDelete {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) throws SQLException, ClassNotFoundException {
+	public static void main(String[] args) {
 
-		// Lecture du properties
-		ResourceBundle database = ResourceBundle.getBundle("database");
+		Fournisseur monFournisseur = new Fournisseur(5, "Chez babel");
+		FournisseurDao inserFournisseur = new FournisseurDaoJdbc();
 
-		Class.forName(database.getString("database.driver"));
-		String url = database.getString("database.url");
-		String user = database.getString("database.user");
-		String password = database.getString("database.pass");
-
-		// Connexion à la BDD
-		try (Connection connexion = DriverManager.getConnection(url, user, password)) {
-
-			connexion.setAutoCommit(false);
-
-			// Execution des requetes
-			try (Statement statement = connexion.createStatement();) {
-
-				// Suppression
-				statement.execute("delete from FOURNISSEUR where NOM='La Maison des Peintures'");
-
-				// Selection
-				ResultSet resultSet = statement.executeQuery("select * from FOURNISSEUR");
-
-				while (resultSet.next()) {
-					String nomFournisseur = resultSet.getString("NOM");
-					System.out.println(nomFournisseur);
-				}
-
-				connexion.commit();
-
-			} catch (SQLException e) {
-				connexion.rollback();
-				System.err.println(e.getMessage());
-			}
-		}
+		inserFournisseur.delete(monFournisseur);
+		System.out.println("Suppression du fournisseur " + monFournisseur.getNom());
 	}
 
 }

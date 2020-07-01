@@ -1,14 +1,10 @@
 package fr.diginamic.jdbc;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ResourceBundle;
+import fr.diginamic.jdbc.dao.FournisseurDao;
+import fr.diginamic.jdbc.dao.FournisseurDaoJdbc;
 
 /**
- * JDBC TP 03 - Exercice 2
+ * JDBC TP 04
  * 
  * @author Jeremy
  *
@@ -18,42 +14,15 @@ public class TestUpdate {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) throws SQLException, ClassNotFoundException {
+	public static void main(String[] args) {
 
-		// Lecture du properties
-		ResourceBundle database = ResourceBundle.getBundle("database");
+		String ancienNom = "FDM SA";
+		String nouveauNom = "FDM SA & CO";
+		FournisseurDao monFournisseur = new FournisseurDaoJdbc();
 
-		Class.forName(database.getString("database.driver"));
-		String url = database.getString("database.url");
-		String user = database.getString("database.user");
-		String password = database.getString("database.pass");
+		monFournisseur.update(ancienNom, nouveauNom);
+		System.out.println(ancienNom + " remplacé par " + nouveauNom);
 
-		// Connexion à la BDD
-		try (Connection connexion = DriverManager.getConnection(url, user, password)) {
-
-			connexion.setAutoCommit(false);
-
-			// Execution des requetes
-			try (Statement statement = connexion.createStatement();) {
-
-				// Modification
-				statement.executeUpdate(
-						"update FOURNISSEUR set NOM='La Maison des Peintures' WHERE NOM='La Maison de la Peinture'");
-
-				// Selection
-				ResultSet resultSet = statement.executeQuery("select * from FOURNISSEUR");
-
-				while (resultSet.next()) {
-					String nomFournisseur = resultSet.getString("NOM");
-					System.out.println(nomFournisseur);
-				}
-				connexion.commit();
-
-			} catch (SQLException e) {
-				connexion.rollback();
-				System.err.println(e.getMessage());
-			}
-		}
 	}
 
 }

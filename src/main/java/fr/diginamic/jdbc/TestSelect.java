@@ -12,7 +12,7 @@ import java.util.ResourceBundle;
 import fr.diginamic.entites.Fournisseur;
 
 /**
- * JDBC TP 03 - Exercice 4
+ * JDBC TP 04
  * 
  * @author Jeremy
  *
