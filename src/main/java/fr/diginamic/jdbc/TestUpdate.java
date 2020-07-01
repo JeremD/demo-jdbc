@@ -22,7 +22,6 @@ public class TestUpdate {
 
 		monFournisseur.update(ancienNom, nouveauNom);
 		System.out.println(ancienNom + " remplacé par " + nouveauNom);
-
 	}
 
 }

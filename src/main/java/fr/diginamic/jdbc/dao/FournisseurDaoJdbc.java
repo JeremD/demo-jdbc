@@ -2,8 +2,10 @@ package fr.diginamic.jdbc.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -38,8 +40,19 @@ public class FournisseurDaoJdbc implements FournisseurDao {
 			connexion = DriverManager.getConnection(url, user, password);
 			statement = connexion.createStatement();
 
-			statement.executeQuery("select * from FOURNISSEUR");
-			return null;
+			List<Fournisseur> list = new ArrayList<>();
+			ResultSet resultSet = statement.executeQuery("select * from FOURNISSEUR");
+
+			while (resultSet.next()) {
+				int id = resultSet.getInt("ID");
+				String nom = resultSet.getString("NOM");
+				
+				Fournisseur Fournisseur = new Fournisseur(id, nom);
+				list.add(Fournisseur);
+			}
+			
+			return list;
+			
 		} catch (SQLException e) {
 			throw new ComptaException("Erreur de requête SQL", e);
 		}
