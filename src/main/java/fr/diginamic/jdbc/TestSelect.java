@@ -45,15 +45,15 @@ public class TestSelect {
 
 				// ArrayList des fournisseurs
 				List<Fournisseur> arrayFournisseur = new ArrayList<>();
-				
+
 				while (resultSet.next()) {
 					int id = resultSet.getInt("ID");
 					String nom = resultSet.getString("NOM");
-					
+
 					Fournisseur nomFournisseur = new Fournisseur(id, nom);
 					arrayFournisseur.add(nomFournisseur);
 				}
-				
+
 				// Affichage ArrayList
 				for (int i = 0; i < arrayFournisseur.size(); i++) {
 					System.out.println(arrayFournisseur.get(i));
