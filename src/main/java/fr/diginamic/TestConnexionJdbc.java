@@ -30,7 +30,8 @@ public class TestConnexionJdbc {
 		try (Connection connexion = DriverManager.getConnection(url, user, password)) {
 
 			try (Statement statement = connexion.createStatement();
-					ResultSet resultSet = statement.executeQuery("select * from fournisseur");) {
+					ResultSet resultSet = statement.executeQuery("select * from fournisseur");
+				) {
 				System.out.println(connexion);
 			}
 
