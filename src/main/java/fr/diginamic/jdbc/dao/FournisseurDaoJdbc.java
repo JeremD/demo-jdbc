@@ -19,13 +19,22 @@ import fr.diginamic.entites.Fournisseur;
  */
 public class FournisseurDaoJdbc implements FournisseurDao {
 
+	/** database */
 	private ResourceBundle database = ResourceBundle.getBundle("database");
 
+	/** url */
 	private String url = database.getString("database.url");
+	
+	/** user */
 	private String user = database.getString("database.user");
+	
+	/** password */
 	private String password = database.getString("database.pass");
 
+	/** connexion */
 	private Connection connexion;
+	
+	/** statement */
 	private Statement statement;
 
 	/**
